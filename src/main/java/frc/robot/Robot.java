@@ -4,7 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 /**
@@ -24,6 +26,8 @@ public class Robot extends TimedRobot {
    private spark rightMotor1 = new spark(2);
    private spark rightMotor2 = new spark(3);
 
+   private Joystick joy1 = new Joystick(0); 
+
   @Override
   public void robotInit() {}
 
@@ -31,21 +35,55 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    startTime = Timer.getFPGATimestamp();
+  }
 
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj.IterativeRobotBase#autonomousPeriodic()
+   */
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj.IterativeRobotBase#autonomousPeriodic()
+   */
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj.IterativeRobotBase#autonomousPeriodic()
+   */
+  /* (non-Javadoc)
+   * @see edu.wpi.first.wpilibj.IterativeRobotBase#autonomousPeriodic()
+   */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    double time = Timer.getFPGATimestamp();
+
+  if (time < 3) {
+  leftMotor1.set(0.6);
+  leftMotor2.set(0.6);
+  rightMotor1.set(-0.6);
+  rightMotor2.set(-0.6);
+  } else {
+    leftMotor1.set(0);
+    leftMotor2.set(0);
+    rightMotor1.set(0);
+    rightMotor2.set(0);
+  }
 
   @Override
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
-    leftmotor1.set(0.5);
-    leftmotor2.set(0.5);
-    rightmotor1.set(-0.5);
-    rightmotor2.set(-0.5);
+  public void teleopPeriodic() {
+    double speed = -joy1.getRawAxis(1) * 0.6;
+    double turn = -joy1.getRawAxis(4) * 0.3;
 
+    double left = speed + turn;
+    double right = speed - turn;
+
+    leftMotor1.set(left);
+    leftMotor2.set(left);
+    rightMotor1.set(-right);
+    rightMotor2.set(-right);
+
+  }
   @Override
   public void disabledInit() {}
 
